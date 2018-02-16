@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "257918844694",
+    "firebase_url": "https://beyond-refugee.firebaseio.com",
+    "project_id": "beyond-refugee",
+    "storage_bucket": "beyond-refugee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257918844694:android:05d252f8c2e45921",
+        "android_client_info": {
+          "package_name": "org.beyondrefuge.www"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257918844694-96rhtke5a798nejn8jluj543todome8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.beyondrefuge.www",
+            "certificate_hash": "d715f615f0cd05a5e13ad54b20fa866bdfee7aa5"
+          }
+        },
+        {
+          "client_id": "257918844694-5tvudijsuqhejj5ml9he0gedrapmkh5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmC9Ytq7x6aLnwRBMtlHfqQ3Skut9CkKo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257918844694-5tvudijsuqhejj5ml9he0gedrapmkh5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

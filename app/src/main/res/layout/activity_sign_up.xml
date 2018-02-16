@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundgradient"
+    tools:context="org.beyondrefuge.www.SignUp">
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/beyonrefugee" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linear1">
+
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonsignup"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/button"
+                android:text="Sign Up"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/buttonsignin"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/button"
+                android:text="Sign In"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear2"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+
+            >
+
+            <EditText
+                android:id="@+id/emailsignup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:backgroundTint="#fff"
+                android:hint="Email"
+                android:paddingLeft="8dp"
+                android:textColorHint="#fff"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                />
+
+            <EditText
+                android:id="@+id/passwordsignup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:backgroundTint="#fff"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingLeft="8dp"
+                android:textColorHint="#fff"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                />
+
+            <EditText
+                android:id="@+id/confirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:backgroundTint="#fff"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:paddingLeft="8dp"
+                android:textColorHint="#fff"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/button"
+                android:text="Create Account"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/button"
+                android:text="Login With Facebook"
+                android:textColor="#fff"
+                android:textSize="15sp"
+
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
