@@ -1,10 +1,12 @@
 package org.beyondrefuge.www;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class SignUp extends AppCompatActivity {
     @BindView(R.id.emailsignup) EditText emailEditText;
     @BindView(R.id.passwordsignup) EditText passwordEditText;
     @BindView(R.id.confirmation) EditText confirmationEditText;
+    Button btnLogin;
     private FirebaseAuth mAuth;
 
 
@@ -35,8 +38,16 @@ public class SignUp extends AppCompatActivity {
         ButterKnife.bind(this);
         mAuth=FirebaseAuth.getInstance();
 
-
+       btnLogin=(Button) findViewById(R.id.buttonsignin);
+       btnLogin.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent1=new Intent(SignUp.this,Login.class);
+               startActivity(intent1);
+           }
+       });
     }
+
     @OnClick(R.id.createAccount)
     public  void createAccount(View view){
     String email=emailEditText.getText().toString().trim();
@@ -70,7 +81,9 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()){
-                Toast.makeText(getApplicationContext(),"User registered successfull",Toast.LENGTH_SHORT).show();
+              Intent intent1=new Intent(SignUp.this,Login.class);
+              startActivity(intent1);
+                //  Toast.makeText(getApplicationContext(),"User registered successfull",Toast.LENGTH_SHORT).show();
             }
             else {
                 if(task.getException() instanceof FirebaseAuthUserCollisionException){
