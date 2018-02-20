@@ -8,7 +8,6 @@
     tools:context="org.beyondrefuge.www.Login">
 
 
-
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
@@ -75,13 +74,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:backgroundTint="#fff"
-                android:hint="Email"
-                android:paddingLeft="8dp"
-                android:textColorHint="#fff"
-                android:inputType="textEmailAddress"
-                android:textSize="16sp"
                 android:fontFamily="sans-serif-light"
-                />
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="8dp"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/passLogin"
@@ -90,42 +89,35 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:backgroundTint="#fff"
+                android:fontFamily="sans-serif-light"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                />
+                android:textSize="16sp" />
 
 
             <Button
+                android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/button"
                 android:text="Login"
                 android:textColor="#fff"
-                android:textSize="15sp"
-                android:id="@+id/login"
-                />
+                android:textSize="15sp" />
 
-            <Button
-                android:layout_width="match_parent"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/button"
-                android:text="Login With Facebook"
-                android:textColor="#fff"
-                android:textSize="15sp"
-
-                />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
 
         </LinearLayout>
     </RelativeLayout>

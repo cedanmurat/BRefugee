@@ -73,13 +73,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:backgroundTint="#fff"
-                android:hint="Email"
-                android:paddingLeft="8dp"
-                android:textColorHint="#fff"
-                android:inputType="textEmailAddress"
-                android:textSize="16sp"
                 android:fontFamily="sans-serif-light"
-                />
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="8dp"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/passwordsignup"
@@ -88,13 +88,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:backgroundTint="#fff"
+                android:fontFamily="sans-serif-light"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/confirmation"
@@ -103,42 +103,27 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:backgroundTint="#fff"
+                android:fontFamily="sans-serif-light"
                 android:hint="Confirm Password"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
+                android:textColor="#fff"
                 android:textColorHint="#fff"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
-                />
+                android:textSize="16sp" />
 
             <Button
+                android:id="@+id/createAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/button"
+                android:onClick="createAccount"
                 android:text="Create Account"
                 android:textColor="#fff"
-                android:textSize="15sp"
-                android:id="@+id/createAccount"
-                android:onClick="createAccount"
-                />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/button"
-                android:text="Login With Facebook"
-                android:textColor="#fff"
-                android:textSize="15sp"
-
-                />
+                android:textSize="15sp" />
 
         </LinearLayout>
     </RelativeLayout>
