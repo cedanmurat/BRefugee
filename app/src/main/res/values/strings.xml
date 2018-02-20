@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Beyond Refugee</string>
+    <string name="facebook_app_id">408536592927529</string>
+    <string name="fb_login_protocol_scheme">fb408536592927529</string>
+
 </resources>
