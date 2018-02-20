@@ -75,7 +75,7 @@ public class SignUp extends AppCompatActivity {
     }
     if (!confirmation.equals(password)){
         confirmationEditText.setError("Please check your password");
-
+        return;
     }
     mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
         @Override

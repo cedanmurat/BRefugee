@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.emailLogin) EditText emailEditText;
@@ -42,6 +43,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
         findViewById(R.id.login).setOnClickListener(this);
         btnSignUp = (Button) findViewById(R.id.buttonsignup);
@@ -82,16 +84,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    @Override
+    /* @Override
     public void onStart() {
         super.onStart();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser!=null){
-            startActivity(new Intent());
-            finish();
+           // startActivity(new Intent());
+           // finish();
         }
-    }
+    }*/
     public void userLogin() {
 
         String email = emailEditText.getText().toString().trim();
