@@ -1,10 +1,13 @@
 package org.beyondrefuge.www.Model;
 
+import java.util.Date;
+
 /**
  * Created by Recoded Cedan on 22.02.2018.
  */
 
 public class News {
+    private long id=new Date().getTime();
     private String author;
 
     private String headline;
@@ -17,7 +20,8 @@ public class News {
 
     private int image;
 
-    public News(String author, String headline, String date, String news, String url, int image) {
+    public News( String author, String headline, String date, String news, String url, int image) {
+        this.id = id;
         this.author = author;
         this.headline = headline;
         this.date = date;
@@ -27,6 +31,14 @@ public class News {
     }
 
     public News() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getAuthor() {

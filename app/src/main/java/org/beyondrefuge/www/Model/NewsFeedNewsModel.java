@@ -1,21 +1,16 @@
 package org.beyondrefuge.www.Model;
 
+import java.util.Date;
+
 /**
  * Created by Recoded Cedan on 23.02.2018.
  */
 
 public class NewsFeedNewsModel {
-
-    private String title;
-    private String news;
-    private String url;
-    private String time;
-    private String newsImage;
-    private String author;
-    private String authorImage;
-    private String location;
+    private long id=new Date().getTime();
 
     public NewsFeedNewsModel(String title, String news, String url, String time, String newsImage, String author, String authorImage, String location) {
+        this.id = id;
         this.title = title;
         this.news = news;
         this.url = url;
@@ -26,7 +21,24 @@ public class NewsFeedNewsModel {
         this.location = location;
     }
 
+    private String title;
+    private String news;
+    private String url;
+    private String time;
+    private String newsImage;
+    private String author;
+    private String authorImage;
+    private String location;
+
     public NewsFeedNewsModel() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {

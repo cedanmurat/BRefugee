@@ -11,11 +11,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@drawable/refugevideoimage"
+                    android:scaleType="centerCrop"
                    android:id="@+id/main_image_item"
                     />
                 <ImageView
@@ -25,18 +29,23 @@
                     android:src="@drawable/play2new"
                     android:layout_centerInParent="true"
                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#63000000"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_headline"
                     android:textSize="22sp"
+                    android:layout_marginLeft="8dp"
                     android:textStyle="bold"
                     android:text="textName"
                     android:textColor="#ffffff"
                     android:layout_alignParentBottom="true"
                     />
-
-
             </RelativeLayout>
 
     </LinearLayout>
