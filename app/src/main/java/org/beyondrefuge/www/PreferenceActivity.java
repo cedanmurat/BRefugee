@@ -1,5 +1,6 @@
 package org.beyondrefuge.www;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,6 +24,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
     @BindView( R.id.button_image_cencel ) ImageButton cencelButton;
 
 
+
     ArrayList<String> selectedTags = new ArrayList<>(  );
 
     @Override
@@ -31,21 +33,19 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_preference );
         ButterKnife.bind( this );
-        if (selectedTags.isEmpty()) {
-            doneButton.setVisibility( View.GONE );
-        }
 
         cencelButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
-               // startActivity( intentView );
+                // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
+                // startActivity( intentView );
             }
         } );
 
 
-        TagContainerLayout mTagContainerLayout = (TagContainerLayout) findViewById( R.id.tag_view);
+        final TagContainerLayout mTagContainerLayout = (TagContainerLayout) findViewById( R.id.tag_view);
         int max = 1000000;
+        final int tagColor = getResources().getColor(R.color.colorPrimaryDark);
         final ArrayList<String> strings = new ArrayList<>(  );
         strings.add( "Racism" );
         strings.add( "Sexism" );
@@ -57,11 +57,18 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onTagClick(int position, String text) {
 
-                doneButton.setVisibility(View.VISIBLE);
-                if (selectedTags.contains( text ))
-                    selectedTags.remove( position );
-                else
+
+
+                if (selectedTags.contains( text )) {
+                    ((TagView)(mTagContainerLayout.getChildAt( position ))).setBackgroundColor( tagColor );
+                    selectedTags.remove( text );
+                }
+
+                else {
+                    ((TagView)(mTagContainerLayout.getChildAt( position ))).setBackgroundColor( Color.BLUE );
                     selectedTags.add( text );
+                }
+
 
                 checkDoneButton ();
             }
@@ -81,9 +88,9 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
     private void checkDoneButton() {
         if (selectedTags.isEmpty()) {
-            doneButton.setEnabled( false );
+            doneButton.setVisibility( View.GONE );
         } else {
-            doneButton.setEnabled( true );
+            doneButton.setVisibility(View.VISIBLE );
         }
     }
 
@@ -97,8 +104,8 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         }else{
             Toast.makeText( this,"You are welcome" ,Toast.LENGTH_LONG).show();
 
-           // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
-           // startActivity( intentView );
+            // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
+            // startActivity( intentView );
         }
 
     }

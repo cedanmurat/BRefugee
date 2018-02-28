@@ -40,6 +40,7 @@ dependencies {
     implementation "com.mikepenz:iconics-core:3.0.3@aar"
     implementation 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.koushikdutta.ion:ion:2.+'
 
 }
 apply plugin: 'com.google.gms.google-services'
