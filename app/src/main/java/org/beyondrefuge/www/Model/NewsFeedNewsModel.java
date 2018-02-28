@@ -1,5 +1,7 @@
 package org.beyondrefuge.www.Model;
 
+import android.text.TextUtils;
+
 import java.util.Date;
 
 /**
@@ -7,9 +9,19 @@ import java.util.Date;
  */
 
 public class NewsFeedNewsModel {
-    private long id=new Date().getTime();
 
-    public NewsFeedNewsModel(String title, String news, String url, String time, String newsImage, String author, String authorImage, String location) {
+    private long id=new Date().getTime();
+    private String title;
+    private String news;
+    private String url;
+    private String time;
+    private String newsImage;
+    private String author;
+    private String authorImage;
+    private String location;
+    private String likeNumber;
+
+    public NewsFeedNewsModel( String title, String news, String url, String time, String newsImage, String author, String authorImage, String location, String likeNumber) {
         this.id = id;
         this.title = title;
         this.news = news;
@@ -19,16 +31,8 @@ public class NewsFeedNewsModel {
         this.author = author;
         this.authorImage = authorImage;
         this.location = location;
+        this.likeNumber = likeNumber;
     }
-
-    private String title;
-    private String news;
-    private String url;
-    private String time;
-    private String newsImage;
-    private String author;
-    private String authorImage;
-    private String location;
 
     public NewsFeedNewsModel() {
     }
@@ -90,7 +94,12 @@ public class NewsFeedNewsModel {
     }
 
     public String getAuthorImage() {
-        return authorImage;
+        if (TextUtils.isEmpty(authorImage)) {
+            return "https://cdn.instructables.com/FNZ/G0YE/H1426KZP/FNZG0YEH1426KZP.LARGE.jpg";
+        } else {
+            return authorImage;
+        }
+
     }
 
     public void setAuthorImage(String authorImage) {
@@ -103,5 +112,13 @@ public class NewsFeedNewsModel {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLikeNumber() {
+        return likeNumber;
+    }
+
+    public void setLikeNumber(String likeNumber) {
+        this.likeNumber = likeNumber;
     }
 }

@@ -1,9 +1,6 @@
 package org.beyondrefuge.www.Adapter;
 
 
-
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,11 +27,14 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
     private List<NewsFeedNewsModel> newsList;
 
+    private Context context;
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView newsTitle, newsNews, newsLocation, newsTime, newsAuthorName;
+        public TextView newsTitle, newsNews, newsLocation, newsTime, newsAuthorName,likeCount;
 
-        public ImageView authorImage;
+        public ImageView authorImage, shareButton,likeButton;
 
 
         public MyViewHolder(View view) {
@@ -53,15 +53,23 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
             authorImage = (ImageView) view.findViewById(R.id.news_author_image);
 
+            shareButton = (ImageView) view.findViewById(R.id.news_share_button);
+
+            likeCount=(TextView) view.findViewById(R.id.like_count);
+
+            likeButton=(ImageView)view.findViewById(R.id.like_button);
+
+
         }
+
 
     }
 
 
-    public NewsFeedListAdapter(List<NewsFeedNewsModel> newsList) {
+    public NewsFeedListAdapter(List<NewsFeedNewsModel> newsList, Context context) {
 
         this.newsList = newsList;
-
+        this.context = context;
 
     }
 
@@ -96,25 +104,38 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
         holder.newsAuthorName.setText(news.getAuthor());
 
-        Context context=holder.authorImage.getContext();
+        holder.likeCount.setText(news.getLikeNumber());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        Picasso.with(context).load(news.getAuthorImage()).into(holder.authorImage);
 
+        if (news.getLikeNumber().isEmpty()){
+            holder.likeButton.setVisibility(View.GONE);
+        }
+        holder.newsNews.setOnClickListener(new View.OnClickListener() {
             @Override
-
-            public void onClick(View view) {
-
+            public void onClick(View v) {
                 Uri uri = Uri.parse(news.getUrl());
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
-                view.getContext().startActivity(intent);
-
+                v.getContext().startActivity(intent);
 
             }
-
         });
 
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                String shareTitle=news.getTitle();
+                String shareSubject=news.getNews();
+                i.putExtra(Intent.EXTRA_SUBJECT,shareTitle);
+                i.putExtra(Intent.EXTRA_TEXT,shareSubject);
+                v.getContext().startActivity(Intent.createChooser(i,"Share it"));
+
+            }
+        });
 
     }
 
