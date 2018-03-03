@@ -1,7 +1,9 @@
 package org.beyondrefuge.www.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 /**
  * Created by Recoded Cedan on 22.02.2018.
@@ -47,8 +51,11 @@ public class NewsFeedNews extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String q = "refugee";
+        String myString = preferences.getString("taggedWord", "refugee");
+
+        String q = myString;
 
         final View view = inflater.inflate(R.layout.news_feed_news, null);
 

@@ -1,13 +1,18 @@
 package org.beyondrefuge.www;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -36,18 +41,21 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        searchView=(SearchView)findViewById(R.id.search_bar);
+        setSearchView();
         NavDrawer();
         displayMenu(1);
 
     }
 
-    private void NavDrawer() {
+    private void NavDrawer() {//Navigation Drawer Menu
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -73,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(2).withName("Contact Us");
         SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(2).withName("About Us");
         SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(2).withName("Settings");
+        SecondaryDrawerItem item10 = new SecondaryDrawerItem().withIdentifier(2).withName("Sign Out");
 
 //create the drawer and remember the `Drawer` result object
 
@@ -83,21 +92,29 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         item1, item2, item3, item4, item5, item6,
                         new DividerDrawerItem(),
-                        item7, item8, item9,
+                        item7, item8, item9,item10,
                         new SecondaryDrawerItem().withName("")
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        switch (position){
+                            case 11:
+                                finish();
+                                startActivity(new Intent(MainActivity.this,Login.class));
+                                FirebaseAuth.getInstance().signOut();
+                                break;
+                            default: displayMenu(position);
+                        }
 
-                        displayMenu(position);
+
                         return false;
                     }
                 })
                 .build();
     }
 
-    private void displayMenu(int position) {
+    private void displayMenu(int position) {//Menu Display Items
         Fragment fragment = null;
         switch (position) {
             case 1:
@@ -118,15 +135,16 @@ public class MainActivity extends AppCompatActivity {
             case 6:
                 fragment = new History();
                 break;
-            case 7:
+            case 8://it is not 7,becauese of I dont know why , I think, naw drawer expect  the drawer like a item :)
                 fragment = new ContactUs();
                 break;
-            case 8:
+            case 9:
                 fragment = new AboutUs();
                 break;
-            case 9:
+            case 10:
                 fragment = new Settings();
                 break;
+
         }
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -134,5 +152,31 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frame_main, fragment);
             fragmentTransaction.commit();
         }
+    }
+    private void setSearchView(){//Search Bar
+        final Fragment[] fragment = {null};
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                       @Override
+            public boolean onQueryTextSubmit(String query) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("taggedWord", query);
+                editor.commit();
+                fragment[0] = new NewsFeed();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_main, fragment[0]);
+                fragmentTransaction.commit();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
+
     }
 }

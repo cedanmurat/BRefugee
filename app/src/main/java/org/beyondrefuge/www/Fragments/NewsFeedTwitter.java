@@ -1,6 +1,8 @@
 package org.beyondrefuge.www.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * Created by Recoded Cedan on 22.02.2018.
  */
@@ -52,7 +56,7 @@ public class NewsFeedTwitter extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         rc.setLayoutManager(linearLayoutManager);
 
-
+        getCredentials();
 
         return view;
     }
@@ -83,13 +87,17 @@ public class NewsFeedTwitter extends Fragment {
     private void load() {
         if (loading != null && !loading.isDone() && !loading.isCancelled())
             return;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String q = "refugee";
+        String myString = preferences.getString("taggedWord", "refugee");
 
-        int count = 10000;
+        String q = myString;
+
+
+        int count = 100;
 
         loading = Ion.with(this)
-                .load("https://api.twitter.com/1.1/search/tweets.json?q=" + q + "&result_type=popular&count=" + count)
+                .load("https://api.twitter.com/1.1/search/tweets.json?q=" + q + "&result_type=mixed&count=100")
                 .setHeader("Authorization", "Bearer " + accessToken)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {

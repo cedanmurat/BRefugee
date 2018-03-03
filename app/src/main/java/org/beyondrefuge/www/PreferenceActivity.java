@@ -1,12 +1,20 @@
 package org.beyondrefuge.www;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +30,9 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
     @BindView(R.id.button_done) Button doneButton;
     @BindView( R.id.button_image_cencel ) ImageButton cencelButton;
-
-
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mReference = mDatabase.getReference();
 
     ArrayList<String> selectedTags = new ArrayList<>(  );
 
@@ -37,8 +46,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         cencelButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
-                // startActivity( intentView );
+                finish();
             }
         } );
 
@@ -50,6 +58,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         strings.add( "Racism" );
         strings.add( "Sexism" );
         strings.add( "Radicalism" );
+        mAuth = FirebaseAuth.getInstance();
         Collections.shuffle( strings );
         mTagContainerLayout.setTags( strings );
         mTagContainerLayout.setTagMaxLength(max);
@@ -67,6 +76,10 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
                 else {
                     ((TagView)(mTagContainerLayout.getChildAt( position ))).setBackgroundColor( Color.BLUE );
                     selectedTags.add( text );
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("taggedWord", text);
+                    editor.commit();
                 }
 
 
@@ -104,8 +117,11 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         }else{
             Toast.makeText( this,"You are welcome" ,Toast.LENGTH_LONG).show();
 
-            // Intent intentView= new Intent (PreferenceActivity.this,MainActivity.class);
-            // startActivity( intentView );
+            DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+            reference.child("users").child(mAuth.getCurrentUser().getUid()).child("tagCompleted").setValue("true");
+
+            Intent intentView= new Intent(PreferenceActivity.this,MainActivity.class);
+            startActivity( intentView );
         }
 
     }
@@ -114,4 +130,5 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
     }
+
 }

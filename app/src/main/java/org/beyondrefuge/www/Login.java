@@ -1,9 +1,11 @@
 package org.beyondrefuge.www;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -16,8 +18,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,17 +27,31 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.beyondrefuge.www.Model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    @BindView(R.id.emailLogin) EditText emailEditText;
-    @BindView(R.id.passLogin) EditText passwordEditText;
-    private Button  btnSignUp;
+    @BindView(R.id.emailLogin)
+    EditText emailEditText;
+    @BindView(R.id.passLogin)
+    EditText passwordEditText;
+    private Button btnSignUp;
     private LoginButton loginButton;
     private FirebaseAuth mAuth;
     CallbackManager callbackManager;
+    private String userId, userName, userEmail, facebookId;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mReference = mDatabase.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +59,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
+
         findViewById(R.id.login).setOnClickListener(this);
         btnSignUp = (Button) findViewById(R.id.buttonsignup);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -54,12 +69,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
             }
         });
-        callbackManager=CallbackManager.Factory.create();
-        loginButton=(LoginButton)findViewById(R.id.facebook_login_button);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 handleFacebookAccessToken(loginResult.getAccessToken());
 
             }
@@ -84,16 +100,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    /* @Override
+
+    @Override
     public void onStart() {
         super.onStart();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser!=null){
-           // startActivity(new Intent());
-           // finish();
+
+        if (currentUser != null) {
+            finish();
+            startActivity(new Intent(Login.this, MainActivity.class));
+
+        } else {
+
+            Toast.makeText(this, "Please Sign In", Toast.LENGTH_SHORT).show();
+
+
         }
-    }*/
+    }
+
     public void userLogin() {
 
         String email = emailEditText.getText().toString().trim();
@@ -122,6 +147,33 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
+                    Query q = userControl.child("users").orderByChild("userId");
+
+                    ValueEventListener postListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            User fireBaseUser = dataSnapshot.getValue(User.class);
+
+                            if (fireBaseUser.isTagCompleted()) {
+                                finish();
+                                startActivity(new Intent(Login.this, MainActivity.class));
+                            } else {
+                                finish();
+                                startActivity(new Intent(Login.this, PreferenceActivity.class));
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(Login.this, "Connection failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    };
+
+                    q.addListenerForSingleValueEvent(postListener);
 
                 } else {
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -140,6 +192,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         }
     }
+
     private void handleFacebookAccessToken(AccessToken token) {
 
 
@@ -149,11 +202,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            facebookUserControl();
                         } else {
-                            // If sign in fails, display a message to the user.
 
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -162,6 +213,65 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                     }
                 });
+    }
+
+    private void writUser(String uid, String uName, String uEmail, String uFacebookId, boolean uIsTagCompleted) {
+
+        User user = new User(uid, uName, uEmail, uFacebookId, uIsTagCompleted);
+
+        mReference.child("users").child(userId).setValue(user);
+    }
+
+    private void getUser() {
+
+        FirebaseUser userInfo = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (userInfo != null) {
+            for (UserInfo profile : userInfo.getProviderData()) {
+                String providerId = profile.getProviderId();
+                facebookId = profile.getUid();
+                userId = facebookId;
+                userName = profile.getDisplayName();
+                userEmail = profile.getEmail();
+                Uri photoUrl = profile.getPhotoUrl();
+            }
+        }
+    }
+
+    private void facebookUserControl() {
+
+        getUser();
+        DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
+        Query q = userControl.child("users").orderByChild("userId").equalTo( facebookId);
+
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                User fireBaseUser = dataSnapshot.getValue(User.class);
+
+                if (fireBaseUser==null) {
+
+                    writUser(userId, userName, userEmail, facebookId, true);
+                    finish();
+                    startActivity(new Intent(Login.this, PreferenceActivity.class));
+                } else {
+                    finish();
+                    startActivity(new Intent(Login.this, MainActivity.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(Login.this, "Connection failed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        q.addListenerForSingleValueEvent(postListener);
+
+
     }
 
 }

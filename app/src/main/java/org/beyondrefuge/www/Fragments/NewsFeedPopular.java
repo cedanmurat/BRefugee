@@ -1,6 +1,8 @@
 package org.beyondrefuge.www.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Recoded Cedan on 22.02.2018.
@@ -41,7 +46,14 @@ public class NewsFeedPopular extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String q = "refugee";
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String myString = preferences.getString("taggedWord", "refugee");
+
+        String q = myString;
+
         View view=inflater.inflate(R.layout.news_feed_popular,null);
         rc = (RecyclerView) view.findViewById(R.id.news_feed_popular_recycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
