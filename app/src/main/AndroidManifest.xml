@@ -29,6 +29,8 @@
         <activity
             android:name=".PreferenceActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".VideoPlayerActivity"
+            android:screenOrientation="landscape"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -50,7 +52,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".VideoPlayerActivity"></activity>
+
     </application>
 
 </manifest>

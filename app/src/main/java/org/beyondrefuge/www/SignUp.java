@@ -119,5 +119,6 @@ public class SignUp extends AppCompatActivity {
 
         mReference.child("users").child(userId).setValue(user);
     }
+    
 
 }

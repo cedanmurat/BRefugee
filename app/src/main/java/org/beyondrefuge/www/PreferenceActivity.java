@@ -119,9 +119,10 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
             DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
             reference.child("users").child(mAuth.getCurrentUser().getUid()).child("tagCompleted").setValue("true");
-
+            finish();
             Intent intentView= new Intent(PreferenceActivity.this,MainActivity.class);
             startActivity( intentView );
+
         }
 
     }
