@@ -95,7 +95,7 @@ public class NewsFeedNewsModel {
 
     public String getAuthorImage() {
         if (TextUtils.isEmpty(authorImage)) {
-            return "https://cdn.instructables.com/FNZ/G0YE/H1426KZP/FNZG0YEH1426KZP.LARGE.jpg";
+            return "https://en.opensuse.org/images/0/0b/Icon-user.png";
         } else {
             return authorImage;
         }

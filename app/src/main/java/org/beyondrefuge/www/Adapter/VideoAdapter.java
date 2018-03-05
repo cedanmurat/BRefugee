@@ -1,5 +1,6 @@
 package org.beyondrefuge.www.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
+import org.beyondrefuge.www.Login;
+import org.beyondrefuge.www.MainActivity;
 import org.beyondrefuge.www.Model.News;
 import org.beyondrefuge.www.Model.Video;
 import org.beyondrefuge.www.R;
+import org.beyondrefuge.www.VideoPlayerActivity;
 
 import java.util.List;
 
@@ -23,6 +28,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
 
     private List<Video> videoList;
+
+
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -80,23 +87,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         holder.recyclerImageMain.setImageResource(video.getImageMain());
 
 
-       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View view) {
+                Context context=view.getContext();
+                view.getContext().startActivity(new Intent(context, VideoPlayerActivity.class));            }
 
-                Uri uri = Uri.parse(video.getUrl());
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
-                view.getContext().startActivity(intent);
-
-
-
-            }
-
-        });*/
+        });
 
     }
 

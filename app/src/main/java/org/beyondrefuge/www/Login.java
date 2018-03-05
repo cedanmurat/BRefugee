@@ -108,9 +108,36 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            finish();
-            startActivity(new Intent(Login.this, MainActivity.class));
 
+
+            DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
+            Query q = userControl.child("users").orderByChild("userId");
+
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    User fireBaseUser = dataSnapshot.getValue(User.class);
+
+                    if (fireBaseUser.isTagCompleted()) {
+                        finish();
+                        startActivity(new Intent(Login.this, MainActivity.class));
+                    } else {
+                        finish();
+                        startActivity(new Intent(Login.this, PreferenceActivity.class));
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(Login.this, "Connection failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            };
+
+            q.addListenerForSingleValueEvent(postListener);
+            finish();
         } else {
 
             Toast.makeText(this, "Please Sign In", Toast.LENGTH_SHORT).show();

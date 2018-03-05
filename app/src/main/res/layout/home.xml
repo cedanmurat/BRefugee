@@ -25,7 +25,13 @@
                 android:layout_marginTop="3dp"
                 android:paddingTop="10dp"
                 app:cardBackgroundColor="@android:color/transparent">
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Local Community Section"
+                    android:gravity="center"
+                    android:textSize="40sp"
+                    android:textColor="#fff"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/m_recycler_view_lcs"
                     android:layout_width="match_parent"
@@ -52,7 +58,13 @@
                 android:layout_marginTop="3dp"
                 android:paddingTop="10dp"
                 app:cardBackgroundColor="@android:color/transparent">
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Prons &amp; Cons Newsfeed"
+                    android:gravity="center"
+                    android:textSize="40sp"
+                    android:textColor="#fff"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/m_recycler_view_pcnf"
                     android:layout_width="match_parent"
