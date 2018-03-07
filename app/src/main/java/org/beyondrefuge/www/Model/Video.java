@@ -8,16 +8,14 @@ import java.util.Date;
 
 public class Video {
     private long id=new Date().getTime();
-    private int imageMain;
+    private String imageMain;
     private  String textHeadLine;
+    private String videoUrl;
 
-    public Video(int imageMain, String textHeadLine) {
-        this.id = id;
+    public Video(String imageMain, String textHeadLine, String videoUrl) {
         this.imageMain = imageMain;
         this.textHeadLine = textHeadLine;
-    }
-
-    public Video() {
+        this.videoUrl = videoUrl;
     }
 
     public long getId() {
@@ -28,11 +26,11 @@ public class Video {
         this.id = id;
     }
 
-    public int getImageMain() {
+    public String getImageMain() {
         return imageMain;
     }
 
-    public void setImageMain(int imageMain) {
+    public void setImageMain(String imageMain) {
         this.imageMain = imageMain;
     }
 
@@ -42,5 +40,13 @@ public class Video {
 
     public void setTextHeadLine(String textHeadLine) {
         this.textHeadLine = textHeadLine;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }

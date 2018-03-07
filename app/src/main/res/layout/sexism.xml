@@ -65,6 +65,7 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/voices_image_s"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -83,6 +84,7 @@
                         android:background="#63000000" />
 
                     <TextView
+                        android:id="@+id/nameVideo_s"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
