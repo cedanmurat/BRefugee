@@ -33,7 +33,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
         // String videoUrl = preferences.getString("video_url", "rtsp://r4---sn-4g5e6nes.googlevideo.com/Cj0LENy73wIaNAnkoz1eRTBClBMYDSANFC0rnJpaMOCoAUIASARg99G_uZPa7YBaigELNV9EMjZiRC1HZTgM/6D523E438D61283FE88FBFC260D442AFFBCD308F.BD5B3501B7FC5F467346035FD7F0E38A051E267C/yt6/1/video.3gp");
 
         try {
-            String videoUrl = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4 ";
+
+            String videoUrl = getIntent().getStringExtra("video");
 
             Uri uri = Uri.parse(videoUrl);
 

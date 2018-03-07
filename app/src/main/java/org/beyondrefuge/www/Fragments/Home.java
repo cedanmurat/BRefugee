@@ -51,7 +51,7 @@ public class Home extends Fragment {
         recyclerViewCaseStudyN=(RecyclerView)view.findViewById(R.id.m_recycler_view_n);
         recyclerViewCaseStudyS=(RecyclerView)view.findViewById(R.id.m_recycler_view_s);
 
-        caseStudyArrayRAR.add(new Video(R.drawable.image1,"RacismAntiRefugee 1"));
+       /* caseStudyArrayRAR.add(new Video(R.drawable.image1,"RacismAntiRefugee 1"));
         caseStudyArrayRAR.add(new Video(R.drawable.image2,"RacismAntiRefugee 2"));
         caseStudyArrayRAR.add(new Video(R.drawable.image3,"RacismAntiRefugee 3"));
         caseStudyArrayRAR.add(new Video(R.drawable.image4,"RacismAntiRefugee 4"));
@@ -77,7 +77,7 @@ public class Home extends Fragment {
 
         videoAdapterCaseStudyRAR=new VideoAdapter(caseStudyArrayRAR);
         videoAdapterCaseStudyN=new VideoAdapter(caseStudyArrayN);
-        videoAdapterCaseStudyS=new VideoAdapter(caseStudyArrayS);
+        videoAdapterCaseStudyS=new VideoAdapter(caseStudyArrayS);*/
 
         RecyclerView.LayoutManager mlayoutManager=new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewCaseStudyRAR.setLayoutManager(mlayoutManager);
@@ -89,9 +89,9 @@ public class Home extends Fragment {
         recyclerViewCaseStudyS.setLayoutManager(new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewCaseStudyS.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.HORIZONTAL));
 
-        recyclerViewCaseStudyRAR.setAdapter(videoAdapterCaseStudyRAR);
+        /*recyclerViewCaseStudyRAR.setAdapter(videoAdapterCaseStudyRAR);
         recyclerViewCaseStudyN.setAdapter(videoAdapterCaseStudyN);
-        recyclerViewCaseStudyS.setAdapter(videoAdapterCaseStudyS);
+        recyclerViewCaseStudyS.setAdapter(videoAdapterCaseStudyS);*/
 
         return view;
     }
