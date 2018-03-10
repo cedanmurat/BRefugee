@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Recoded Cedan on 23.02.2018.
  */

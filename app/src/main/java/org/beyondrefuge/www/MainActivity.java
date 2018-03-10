@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setSearchView();
         NavDrawer();
         displayMenu(1);
-
     }
 
     private void NavDrawer() {//Navigation Drawer Menu
