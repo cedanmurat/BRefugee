@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -71,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(1).withName("NewsFeed");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(1).withName("Racism/ Anti-Refugee");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(1).withName("Nationalism");
-        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(1).withName("Sexism");
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(1).withName("History");
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("NewsFeed");
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("Racism/ Anti-Refugee");
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("Nationalism");
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withName("Sexism");
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withName("History");
 
-        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(2).withName("Contact Us");
-        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(2).withName("About Us");
-        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(2).withName("Settings");
-        SecondaryDrawerItem item10 = new SecondaryDrawerItem().withIdentifier(2).withName("Sign Out");
+        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(7).withName("Contact Us");
+        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(8).withName("About Us");
+        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Settings");
+        SecondaryDrawerItem item10 = new SecondaryDrawerItem().withIdentifier(10).withName("Sign Out");
 
 //create the drawer and remember the `Drawer` result object
 
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             case 11:
                                 finish();
                                 startActivity(new Intent(MainActivity.this,Login.class));
+                                LoginManager.getInstance().logOut();
                                 FirebaseAuth.getInstance().signOut();
                                 break;
                             default: displayMenu(position);

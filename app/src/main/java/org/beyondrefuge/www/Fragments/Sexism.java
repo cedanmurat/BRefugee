@@ -1,5 +1,6 @@
 package org.beyondrefuge.www.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,18 +12,37 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import org.beyondrefuge.www.Adapter.VideoAdapter;
 import org.beyondrefuge.www.Model.Video;
 import org.beyondrefuge.www.R;
+import org.beyondrefuge.www.VideoPlayerActivity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Recoded Cedan on 21.02.2018.
  */
 
 public class Sexism extends Fragment {
+    @BindView(R.id.voices_image_s)
+    ImageView voicesImage;
+    @BindView(R.id.nameVideo_s)
+    TextView voicesvideoName;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -32,43 +52,100 @@ public class Sexism extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        ArrayList<Video> caseStudyArray=new ArrayList<>();
-        ArrayList<Video> howToMediateArray=new ArrayList<>();
+        final ArrayList<Video> caseStudyArray=new ArrayList<>();
+        final ArrayList<Video> howToMediateArray=new ArrayList<>();
 
-        RecyclerView recyclerViewCaseStudy;
-        RecyclerView recyclerViewHowToMediate ;
+        final RecyclerView recyclerViewCaseStudy;
+        final RecyclerView recyclerViewHowToMediate ;
         VideoAdapter videoAdapterCaseStudy;
         VideoAdapter videoAdapterHowToMediate;
 
 
-        View view=inflater.inflate(R.layout.sexism,null);
+       final View view=inflater.inflate(R.layout.sexism,null);
+        ButterKnife.bind(this,view);
         recyclerViewCaseStudy=(RecyclerView)view.findViewById(R.id.case_study_voices_s);
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 1"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 2"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 3"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 4"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 5"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 6"));
-        caseStudyArray.add(new Video(R.drawable.refugevideoimage,"Case Study Video 7"));
         recyclerViewHowToMediate=(RecyclerView)view.findViewById(R.id.recycler_howtomediate_s);
-        howToMediateArray.add(new Video(R.drawable.refugevideoimage,"How To Mediate Video 1"));
-        howToMediateArray.add(new Video(R.drawable.refugevideoimage,"How To Mediate Video 2"));
-        howToMediateArray.add(new Video(R.drawable.refugevideoimage,"How To MediateVideo 3"));
-        howToMediateArray.add(new Video(R.drawable.refugevideoimage,"How To Mediate Video 4"));
-        howToMediateArray.add(new Video(R.drawable.refugevideoimage,"How To Mediate Video 5"));
-        videoAdapterCaseStudy=new VideoAdapter(caseStudyArray);
-        videoAdapterHowToMediate=new VideoAdapter(howToMediateArray);
+
         RecyclerView.LayoutManager mlayoutManager=new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
         recyclerViewCaseStudy.setLayoutManager(mlayoutManager);
+
         recyclerViewHowToMediate.setLayoutManager(new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
         recyclerViewCaseStudy.setItemAnimator(new DefaultItemAnimator());
+
         recyclerViewCaseStudy.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.HORIZONTAL));
 
         recyclerViewHowToMediate.setItemAnimator(new DefaultItemAnimator());
+
         recyclerViewHowToMediate.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.HORIZONTAL));
 
-        recyclerViewCaseStudy.setAdapter(videoAdapterCaseStudy);
-        recyclerViewHowToMediate.setAdapter(videoAdapterHowToMediate);
+        Ion.with(this)
+                .load("https://api.myjson.com/bins/1d5hap")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if(e!=null){
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            try {
+                                JSONObject baseJsonResponse = new JSONObject(result.toString());
+
+                                JSONObject sexism=baseJsonResponse.getJSONObject("sexism");
+
+                                JSONObject voicesVideo=sexism.getJSONObject("voicesVideo");
+
+                                String image= String.valueOf(voicesVideo.getString("videoImage"));
+
+                                Picasso.with(getContext()).load(image).into(voicesImage);
+
+                                String videoname= String.valueOf(voicesVideo.getString("videoName"));
+
+                                voicesvideoName.setText(videoname);
+
+                                final String url=String.valueOf(voicesVideo.getString("videoUrl"));
+
+                                voicesImage.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                                        intent.putExtra("video", url);
+                                        startActivity(intent);
+                                    }
+                                });
+                                JSONArray jsonArrayCase=sexism.optJSONArray("caseStudyVideo");
+                                for(int i=0; i<jsonArrayCase.length(); i++){
+                                    String imageCase=jsonArrayCase.getJSONObject(i).getString("videoImage");
+                                    String videoNameCase=jsonArrayCase.getJSONObject(i).getString("videoName");
+                                    String videoUrlCase=jsonArrayCase.getJSONObject(i).getString("videoUrl");
+                                    caseStudyArray.add(new Video(imageCase,videoNameCase,videoUrlCase));
+                                    recyclerViewCaseStudy.setAdapter(new VideoAdapter(caseStudyArray,getContext()));
+
+                                }
+                                JSONArray jsonArrayHow=sexism.optJSONArray("howToMediateVideo");
+                                for(int j=0; j<jsonArrayHow.length(); j++){
+                                    String imageHow=jsonArrayHow.getJSONObject(j).getString("videoImage");
+                                    String videoNameHow=jsonArrayHow.getJSONObject(j).getString("videoName");
+                                    String videoUrlHow=jsonArrayHow.getJSONObject(j).getString("videoUrl");
+                                    howToMediateArray.add(new Video(imageHow,videoNameHow,videoUrlHow));
+                                    recyclerViewHowToMediate.setAdapter(new VideoAdapter(howToMediateArray,getContext()));
+
+                                }
+
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                        }
+                    }
+                });
+
+
+
+
 
         return view;
     }

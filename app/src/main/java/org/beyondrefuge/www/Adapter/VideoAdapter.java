@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.squareup.picasso.Picasso;
+
 import org.beyondrefuge.www.Login;
 import org.beyondrefuge.www.MainActivity;
 import org.beyondrefuge.www.Model.News;
@@ -29,13 +31,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
     private List<Video> videoList;
 
-
+    private Context context;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView recyclerHeadLine;
         public ImageView recyclerImageMain;
+
 
 
 
@@ -52,10 +55,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     }
 
 
-    public VideoAdapter(List<Video> videoList) {
+    public VideoAdapter(List<Video> videoList, Context context) {
 
         this.videoList = videoList;
-
+        this.context=context;
     }
 
 
@@ -84,7 +87,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         final Video video = videoList.get(position);
 
         holder.recyclerHeadLine.setText(video.getTextHeadLine());
-        holder.recyclerImageMain.setImageResource(video.getImageMain());
+
+        Picasso.with(context).load(video.getImageMain()).into(holder.recyclerImageMain);
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +98,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
             public void onClick(View view) {
                 Context context=view.getContext();
-                view.getContext().startActivity(new Intent(context, VideoPlayerActivity.class));            }
+
+                Intent intent = new Intent(context, VideoPlayerActivity.class);
+                intent.putExtra("video", video.getVideoUrl());
+                view.getContext().startActivity(intent);
+
+            }
 
         });
 
