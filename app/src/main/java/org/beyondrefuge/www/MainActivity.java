@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             case 11:
                                 finish();
                                 startActivity(new Intent(MainActivity.this,Login.class));
+                                LoginManager.getInstance().logOut();
                                 FirebaseAuth.getInstance().signOut();
                                 break;
                             default: displayMenu(position);

@@ -222,7 +222,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void handleFacebookAccessToken(AccessToken token) {
 
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -233,7 +232,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             facebookUserControl();
                         } else {
 
-                            Toast.makeText(Login.this, "Authentication failed.",
+                            Toast.makeText(Login.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                         }
