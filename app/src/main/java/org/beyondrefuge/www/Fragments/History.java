@@ -34,7 +34,7 @@ import io.realm.RealmResults;
 public class History extends Fragment {
     Realm realm;
     Context context;
-    List<NewsFeedNewsModel> list;
+    private  List<NewsFeedNewsModel> newsList;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,10 +55,11 @@ public class History extends Fragment {
            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                @Override
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   Uri uri = Uri.parse(realmAdapter.toString());
 
-                   Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
+               // final NewsFeedNewsModel newsl = newsList.get(position);
+                   String [] link=null;
+                  Uri url = Uri.parse(link[position]);
+                  Intent intent = new Intent(Intent.ACTION_VIEW,url);
                    view.getContext().startActivity(intent);
                }
            });
