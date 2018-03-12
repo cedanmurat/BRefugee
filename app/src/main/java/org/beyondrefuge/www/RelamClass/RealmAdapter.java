@@ -50,10 +50,8 @@ public class RealmAdapter extends ArrayAdapter<HistoryItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         convertView= LayoutInflater.from(context).inflate(R.layout.hamidlayout,parent,false);
-        TextView isim=convertView.findViewById(R.id.kullaniciAdiText);
-        TextView sifre=convertView.findViewById(R.id.kullaniciSifre);
-        isim.setText(list.get(position).getTitle().toString());
-        sifre.setText(list.get(position).getUrl());
+        TextView title=convertView.findViewById(R.id.title);
+        title.setText(list.get(position).getTitle());
         return convertView;
     }
 }

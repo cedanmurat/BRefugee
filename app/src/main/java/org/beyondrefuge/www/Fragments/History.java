@@ -48,7 +48,7 @@ public class History extends Fragment {
         View view = inflater.inflate(R.layout.history,null);
         ListView listview = (ListView)view.findViewById(R.id.listview);
         Realm realm = Realm.getDefaultInstance();
-       RealmResults query = realm.where(HistoryItem.class).findAll();
+       final RealmResults<HistoryItem> query = realm.where(HistoryItem.class).findAll();
        if(query.size()>0){
            final RealmAdapter realmAdapter=new RealmAdapter(query,getContext());
            listview.setAdapter(realmAdapter);
@@ -57,8 +57,7 @@ public class History extends Fragment {
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                // final NewsFeedNewsModel newsl = newsList.get(position);
-                   String [] link=null;
-                  Uri url = Uri.parse(link[position]);
+                  Uri url = Uri.parse(query.get(position).getUrl());
                   Intent intent = new Intent(Intent.ACTION_VIEW,url);
                    view.getContext().startActivity(intent);
                }

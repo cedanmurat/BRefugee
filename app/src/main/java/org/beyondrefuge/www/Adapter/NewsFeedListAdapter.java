@@ -124,7 +124,8 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
                 Realm realm = Realm.getDefaultInstance();
 
-                HistoryItem item = new HistoryItem(newsList.get(position).toString(), news.getUrl());
+                HistoryItem item = new HistoryItem(newsList.get(position).getNews(), news
+                .getUrl());
 
                 realm.beginTransaction();
                 realm.copyToRealm(item);
