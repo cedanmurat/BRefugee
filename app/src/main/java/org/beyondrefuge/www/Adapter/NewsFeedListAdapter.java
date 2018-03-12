@@ -4,7 +4,6 @@ package org.beyondrefuge.www.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.beyondrefuge.www.Model.HistoryItem;
 import org.beyondrefuge.www.Model.NewsFeedNewsModel;
 import org.beyondrefuge.www.R;
 
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmObject;
 
 /**
  * Created by Recoded Cedan on 23.02.2018.
@@ -28,6 +31,9 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
     private List<NewsFeedNewsModel> newsList;
 
     private Context context;
+
+
+
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -70,6 +76,7 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
         this.newsList = newsList;
         this.context = context;
+        Realm.init(context);
 
     }
 
@@ -90,7 +97,7 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
 
     @Override
 
-    public void onBindViewHolder(NewsFeedListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(NewsFeedListAdapter.MyViewHolder holder, final int position) {
 
         final NewsFeedNewsModel news = newsList.get(position);
 
@@ -114,11 +121,22 @@ public class NewsFeedListAdapter extends RecyclerView.Adapter<NewsFeedListAdapte
         holder.newsNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(news.getUrl());
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                Realm realm = Realm.getDefaultInstance();
 
-                v.getContext().startActivity(intent);
+                HistoryItem item = new HistoryItem(newsList.get(position).getNews(), news
+                .getUrl());
+
+                realm.beginTransaction();
+                realm.copyToRealm(item);
+                realm.commitTransaction();
+
+               Uri uri = Uri.parse(news.getUrl());
+
+               Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+               v.getContext().startActivity(intent);
+
 
             }
         });
