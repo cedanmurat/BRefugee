@@ -10,14 +10,12 @@ public class User {
     private String userId;
     private String name;
     private String email;
-    private String facebookId;
     private boolean isTagCompleted=false;
 
-    public User(String userId, String name, String email, String facebookId, boolean isTagCompleted) {
+    public User(String userId, String name, String email, boolean isTagCompleted) {
         this.userId=userId;
         this.name = name;
         this.email = email;
-        this.facebookId = facebookId;
         this.isTagCompleted = isTagCompleted;
     }
 
@@ -46,14 +44,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
     }
 
     public boolean isTagCompleted() {

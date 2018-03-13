@@ -118,7 +118,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
             Toast.makeText( this,"You are welcome" ,Toast.LENGTH_LONG).show();
 
             DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-            reference.child("users").child(mAuth.getCurrentUser().getUid()).child("tagCompleted").setValue("true");
+            reference.child("users").child(mAuth.getCurrentUser().getUid()).child("isTagCompleted").setValue(true);
             finish();
             Intent intentView= new Intent(PreferenceActivity.this,MainActivity.class);
             startActivity( intentView );

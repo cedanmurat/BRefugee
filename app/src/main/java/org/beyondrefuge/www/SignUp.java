@@ -124,7 +124,7 @@ public class SignUp extends AppCompatActivity {
 
         String userId = String.valueOf(new Date().getTime());
 
-        User user = new User(userId, name, email, facebookId, isTagCompleted);
+        User user = new User(userId, name, email, isTagCompleted);
 
         mReference.child("users").child(userId).setValue(user);
     }
