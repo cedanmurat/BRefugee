@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -43,16 +45,20 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private SearchView searchView;
+    private String userName, userMail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        getUserDetails();
         searchView=(SearchView)findViewById(R.id.search_bar);
         setSearchView();
         NavDrawer();
         displayMenu(1);
+
     }
 
     private void NavDrawer() {//Navigation Drawer Menu
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withName(userName).withEmail(userMail).withIcon(getResources().getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -71,17 +77,17 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
         //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("NewsFeed");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("Racism/ Anti-Refugee");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("Nationalism");
-        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withName("Sexism");
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withName("History");
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home").withIcon(Ionicons.Icon.ion_android_home);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("NewsFeed").withIcon(Ionicons.Icon.ion_android_document);
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("Racism/ Anti-Refugee").withIcon(Ionicons.Icon.ion_android_document);
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("Nationalism").withIcon(Ionicons.Icon.ion_android_document);
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withName("Sexism").withIcon(Ionicons.Icon.ion_android_document);
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withName("History").withIcon(Ionicons.Icon.ion_android_archive);
 
-        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(7).withName("Contact Us");
-        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(8).withName("About Us");
-        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Settings");
-        SecondaryDrawerItem item10 = new SecondaryDrawerItem().withIdentifier(10).withName("Sign Out");
+        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(7).withName("Contact Us").withIcon(Ionicons.Icon.ion_android_call);
+        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(8).withName("About Us").withIcon(Ionicons.Icon.ion_information_circled);
+        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Settings").withIcon(Ionicons.Icon.ion_android_settings);
+        SecondaryDrawerItem item10 = new SecondaryDrawerItem().withIdentifier(10).withName("Sign Out").withIcon(Ionicons.Icon.ion_log_out);
 
 //create the drawer and remember the `Drawer` result object
 
@@ -178,6 +184,22 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+    }
+    private void getUserDetails(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userMail=user.getEmail().toString();
+
+        userName=user.getDisplayName().toString();
+
+
+
+        if(userName==null)
+        {
+            userName=null;
+        }
 
     }
 }

@@ -107,9 +107,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
+            finish();
+            startActivity(new Intent(Login.this, MainActivity.class));
 
-
-            DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
+            /*DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
             Query q = userControl.child("users").orderByChild("userId");
 
             ValueEventListener postListener = new ValueEventListener() {
@@ -136,7 +137,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             };
 
             q.addListenerForSingleValueEvent(postListener);
-            finish();
+            finish();*/
         } else {
 
             Toast.makeText(this, "Please Sign In", Toast.LENGTH_SHORT).show();
