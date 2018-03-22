@@ -14,7 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.app.AlertDialog;
+import org.beyondrefuge.www.MainActivity;
 import org.beyondrefuge.www.Model.HistoryItem;
 import org.beyondrefuge.www.Model.NewsFeedNewsModel;
 import org.beyondrefuge.www.R;
@@ -34,6 +35,7 @@ import io.realm.RealmResults;
 public class History extends Fragment {
     Realm realm;
     Context context;
+
     private  List<NewsFeedNewsModel> newsList;
 
     @Override
@@ -45,28 +47,30 @@ public class History extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.history,null);
-        ListView listview = (ListView)view.findViewById(R.id.listview);
-        Realm realm = Realm.getDefaultInstance();
-       final RealmResults<HistoryItem> query = realm.where(HistoryItem.class).findAll();
-       if(query.size()>0){
-           final RealmAdapter realmAdapter=new RealmAdapter(query,getContext());
-           listview.setAdapter(realmAdapter);
-           listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-               @Override
-               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               // final NewsFeedNewsModel newsl = newsList.get(position);
-                  Uri url = Uri.parse(query.get(position).getUrl());
-                  Intent intent = new Intent(Intent.ACTION_VIEW,url);
-                   view.getContext().startActivity(intent);
-               }
-           });
-       }
+        View view = inflater.inflate(R.layout.history,null);
+
+        Realm realm = Realm.getDefaultInstance();
+        ListView listview = (ListView)view.findViewById(R.id.listview);
+        final RealmResults<HistoryItem> query = realm.where(HistoryItem.class).findAll();
+        if(query.size()>0){
+            final RealmAdapter realmAdapter=new RealmAdapter(query,getContext());
+            listview.setAdapter(realmAdapter);
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Uri url = Uri.parse(query.get(position).getUrl());
+                    Intent intent = new Intent(Intent.ACTION_VIEW,url);
+                    view.getContext().startActivity(intent);
+                }
+            });
+        }
 
 
        // Log.d("asdasd",query.size()+"");
-        return view;
+
+      return view;
     }
 
 
