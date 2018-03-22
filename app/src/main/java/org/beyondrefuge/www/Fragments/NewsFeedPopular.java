@@ -59,7 +59,7 @@ public class NewsFeedPopular extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         rc.setLayoutManager(linearLayoutManager);
         Ion.with(this)
-                .load("https://newsapi.org/v2/everything?q="+q+"&sortBy=popularity&apiKey=828bd4aaa4dc4829b3f1aa77855e29c3")
+                .load("https://webhose.io/filterWebContent?token=9b15f43d-ebfa-4bf9-8487-007c00d51671&format=json&language=english&q="+q)
 
                 .asJsonObject()
 
@@ -75,23 +75,25 @@ public class NewsFeedPopular extends Fragment {
 
                             try {
                                 JSONObject object = new JSONObject(result.getAsJsonObject().toString());
-                                JSONArray array = object.getJSONArray("articles");
+                                JSONArray array = object.getJSONArray("posts");
 
                                 for (int i = 0; i < array.length(); i++) {
 
-                                    String title = array.getJSONObject(i).getString("title");
+                                    String title = array.getJSONObject(i).getJSONObject("thread").getString("title");
 
-                                    String author=array.getJSONObject(i).getString("author");
+                                    String author=array.getJSONObject(i).getJSONObject("entities").getJSONArray("persons").getJSONObject(0).getString("name");
 
-                                    String time = array.getJSONObject(i).getString("publishedAt");
+                                    String time = array.getJSONObject(i).getString("published");
 
-                                    String description = array.getJSONObject(i).getString("description");
+                                    String description = array.getJSONObject(i).getString("text");
 
-                                    String webUrl = array.getJSONObject(i).getString("url");
+                                    String webUrl = array.getJSONObject(i).getJSONObject("thread").getString("url");
 
-                                    String image=array.getJSONObject(i).getString("urlToImage");
+                                    String image=array.getJSONObject(i).getJSONObject("thread").getString("main_image");
 
-                                    arrayList.add(new NewsFeedNewsModel(title, description, webUrl, time, "", author, image, "",""));
+                                    String location= array.getJSONObject(i).getJSONObject("entities").getJSONArray("locations").getJSONObject(0).getString("name");
+
+                                    arrayList.add(new NewsFeedNewsModel(title, description, webUrl, time, "", author, image, location,""));
 
                                     rc.setAdapter(new NewsFeedListAdapter(arrayList, getContext()));
 

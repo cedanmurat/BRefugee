@@ -70,7 +70,7 @@ public class NewsFeedNews extends Fragment  {
         rc.setLayoutManager(linearLayoutManager);
 
         Ion.with(this)
-                .load("http://content.guardianapis.com/search?order-by=newest&show-elements=image&q="+q+"&api-key=04fd9296-dacf-4831-a5e6-8d349e8ffd4b")
+                .load("http://content.guardianapis.com/search?order-by=newest&show-elements=image&q="+q+"&api-key=a4a85f5d-7b7c-4df2-887b-f41f8817f711")
 
                 .asJsonObject()
 

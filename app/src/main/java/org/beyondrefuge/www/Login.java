@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private LoginButton loginButton;
     private FirebaseAuth mAuth;
     CallbackManager callbackManager;
-    private String userId, userName, userEmail, facebookId;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mReference = mDatabase.getReference();
 
@@ -108,9 +107,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
+            finish();
+            startActivity(new Intent(Login.this, MainActivity.class));
 
-
-            DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
+            /*DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
             Query q = userControl.child("users").orderByChild("userId");
 
             ValueEventListener postListener = new ValueEventListener() {
@@ -137,7 +137,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             };
 
             q.addListenerForSingleValueEvent(postListener);
-            finish();
+            finish();*/
         } else {
 
             Toast.makeText(this, "Please Sign In", Toast.LENGTH_SHORT).show();
@@ -228,7 +228,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
                             facebookUserControl();
                         } else {
 
@@ -241,34 +240,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 });
     }
 
-    private void writUser(String uid, String uName, String uEmail, String uFacebookId, boolean uIsTagCompleted) {
+    private void writUser(String uid, String uName, String uEmail, boolean uIsTagCompleted) {
 
-        User user = new User(uid, uName, uEmail, uFacebookId, uIsTagCompleted);
+        User user = new User(uid, uName, uEmail, uIsTagCompleted);
 
-        mReference.child("users").child(userId).setValue(user);
-    }
-
-    private void getUser() {
-
-        FirebaseUser userInfo = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (userInfo != null) {
-            for (UserInfo profile : userInfo.getProviderData()) {
-                String providerId = profile.getProviderId();
-                facebookId = profile.getUid();
-                userId = facebookId;
-                userName = profile.getDisplayName();
-                userEmail = profile.getEmail();
-                Uri photoUrl = profile.getPhotoUrl();
-            }
-        }
+        mReference.child("users").child(uid).setValue(user);
     }
 
     private void facebookUserControl() {
 
-        getUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         DatabaseReference userControl = FirebaseDatabase.getInstance().getReference();
-        Query q = userControl.child("users").orderByChild("userId").equalTo( facebookId);
+        Query q = userControl.child("users").orderByChild("userId").equalTo( user.getUid());
 
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -279,7 +263,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (fireBaseUser==null) {
 
-                    writUser(userId, userName, userEmail, facebookId, true);
+                    writUser(user.getUid(), user.getDisplayName(), user.getEmail(), true);
                     finish();
                     startActivity(new Intent(Login.this, PreferenceActivity.class));
                 } else {
