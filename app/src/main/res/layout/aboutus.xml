@@ -1,16 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/transparent"
-    >
+    android:background="@android:color/transparent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/titletext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About Us"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
-        android:textSize="55sp"/>
+        android:text="Who Are We?"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titletext"
+        android:src="@drawable/blogoround"
+        />
+
+    <TextView
+        android:id="@+id/firstline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="\tBeyond Refuge is a nonprofit registered as a socialenterprise in the UK. "
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/secondline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firstline"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="\tSupporting refugee livelihoods through adult learning programmes. "
+        android:textColor="#fff" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/secondline"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="\tDisseminating information about the forced migration context to European mainstream populations. "
+        android:textColor="#fff" />
 </RelativeLayout>

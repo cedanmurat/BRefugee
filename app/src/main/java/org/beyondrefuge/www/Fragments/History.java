@@ -33,8 +33,6 @@ import io.realm.RealmResults;
  */
 
 public class History extends Fragment {
-    Realm realm;
-    Context context;
 
     private  List<NewsFeedNewsModel> newsList;
 
@@ -49,7 +47,7 @@ public class History extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.history,null);
-
+        Realm.init(getContext());
         Realm realm = Realm.getDefaultInstance();
         ListView listview = (ListView)view.findViewById(R.id.listview);
         final RealmResults<HistoryItem> query = realm.where(HistoryItem.class).findAll();
